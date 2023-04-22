@@ -1,4 +1,4 @@
-## Project 1
+# Project 1
 
 
     import csv
@@ -10,7 +10,7 @@ Internal library csv, math, Counter are used.
 
 
 
-# TASK 1
+## TASK 1
 
     f = open ('train.csv','r')
     train_csv = csv.reader(f)
