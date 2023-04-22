@@ -1,17 +1,19 @@
-# Project 1
+# Project 1 (2018311639 Yeo Hyunseung)
 
+Built-in modules csv, math, Counter are used.
 
     import csv
     import math
     from collections import Counter
 
-Internal library csv, math, Counter are used.
+
 
 
 
 
 ## TASK 1
 
+First, opened train.csv file and the list of special characters are made. 
     f = open ('train.csv','r')
     train_csv = csv.reader(f)
 
@@ -19,12 +21,12 @@ Internal library csv, math, Counter are used.
     tokenized_rev = []
     special_chars = " !\"#$%&'()*+,-./:;<=>?@[\]^_`{|}~"
 
-First, opened train.csv file and the list of special characters are made. 
 
+To sort the train data, it is tokenized by splitting each review after converting the words to lowercases and eliminating the special characters.
 
     for line in train_csv:
         line[1]=line[1].lower()                                 ## Converting into lowercases
-        if not line[1] == 'text':                               ## Eliminate the special charactors
+        if not line[1] == 'text':                               ## Eliminate the special characters
             for Char in special_chars:
                 line[1]=line[1].replace(Char,' ')
             line[1] = line[1].split()
@@ -32,39 +34,39 @@ First, opened train.csv file and the list of special characters are made.
             tokenized_rev.append(line[1])                       ## tokenize into words
     f.close
 
+    f = open("stopwords.txt",'r')                               ## making stopwords lists
+    stopwords = []
+    while True:
+        line = f.readline().strip()
+        if not line:break
+        stopwords.append(line)
+    f.close
+    
+tokenized_words[] is the list of total set of tokenized review.
+    
+    tokenized_words = []                                        ## eliminating stopwords
 
-f = open("stopwords.txt",'r')                               ## making stopwords lists
-stopwords = []
-while True:
-    line = f.readline().strip()
-    if not line:break
-    stopwords.append(line)
-f.close
+    for review in tokenized_rev:
+        for review_word in review:
+            if review_word not in stopwords:
+                tokenized_words.append(review_word)
 
+By using count function, top 1000 features are sorted.
+    count = Counter(tokenized_words)
+    top_thousand = count.most_common(1000)
+    selected_f = []
+    for words in top_thousand:
+        selected_f.append(words[0])                       ## selected features (top 1000 words)
 
+Top 20-50 features are: 'well', 'order', 'told', 'didn', 'going', 'first', 'am', 'love', 'down', 'staff', 'minutes', 'ordered', 'now', 'way', 'day', 'chicken', 'restaurant', 'came', '2', 'nice', 'car', 'take', 'still', 'see', 'asked', 'little', 'store', 'made', 'try', 'want', 'experience'.
 
-tokenized_words = []                                        ## eliminating stopwords
-
-for review in tokenized_rev:
-    for review_word in review:
-        if review_word not in stopwords:
-            tokenized_words.append(review_word)
-
-
-count = Counter(tokenized_words)
-top_thousand = count.most_common(1000)
-selected_f = []
-for words in top_thousand:
-    selected_f.append(words[0])                       ## selected features (top 1000 words)
-
-
-print("TOP 20-50 WORDS: ", selected_f[19:50])                                    ## top 20-50 words 
-
-
+    print("TOP 20-50 WORDS: ", selected_f[19:50])                                    ## top 20-50 words 
 
 
 
-### TASK 2 ###
+
+
+# TASK 2
 
 p_rev_train = []                                        ## list (positive reviews)
 n_rev_train = []                                        ## list (negative reviews)
