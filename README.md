@@ -120,9 +120,10 @@ We are going to test with the trained data using test.csv. Repeat the same proce
                 review[1] = [i for i in review[1] if i not in stopwords]
 
 Maximum likelihood estimation is a method of estimation by comparing the likelihood and predicting which class the attribute belongs to. The likelihood is computed as P(F1, F2, ... , F1000 | REVIEW) = P(F1|REVIEW)P(F2|REVIEW)...P(F1000|REVIEW). If the likelihood of a feature is 0, i.e. unseen event, 'Laplace smoothing' is used to prevent these cases. The number of possible case with a feature f_k is 2(to appear or not). Therefore, the likelihood will be 1/(P(REVIEW)+2). 
+
 In python, very small number may not be counted. After computing likelihood, it could be very small number since it is multiplication of numbers less than 1. Therefore, the likelihood is compared by log function. If the likelihood of that the sentence is positive review is larger than the likelihood of negative, the classifier will consider that the review is positive review. Else, it will classify the review negative.
 
-Estimation = []
+    Estimation = []
 
     for review in test:
         ll_pos = 0
@@ -144,7 +145,7 @@ Estimation = []
             Estimation.append('1')
 
 The accuracy formula is:
-$ Accuracy = (TruePositive + TrueNegative)/(TruePositive + TrueNegative + FalsePositive + FalseNegative) $
+$Accuracy = (TruePositive + TrueNegative)/(TruePositive + TrueNegative + FalsePositive + FalseNegative)$
 
     TRUE_P = 0
     TRUE_N = 0
