@@ -1,6 +1,6 @@
 # Project 1 (2018311639 Yeo Hyunseung)
 
-Built-in modules csv, math, Counter are used.
+Built-in modules csv, math, Counter are used. Also, matplotlib is used for plotting the learning curve at TASK 3.
 
     import csv
     import math
@@ -183,9 +183,9 @@ The number of total review of train.csv was 4000. Now we are going to train agai
     n_rev10 = []
     for i in range(400):
         if train[i][0] == '5':
-            p_rev10.append(review[1])
+            p_rev10.append(train[i][1])
         else:
-            n_rev10.append(review[1])                          
+            n_rev10.append(train[i][1])                          
 
     CPD_p10 = []                               
     CPD_n10 = []                                
@@ -245,6 +245,7 @@ The number of total review of train.csv was 4000. Now we are going to train agai
     ACCURACY10 = (TRUE_P + TRUE_N)/(TRUE_P + TRUE_N + FALSE_P + FALSE_N)
     print('Accuracy for 10% Data set : ', ACCURACY10*100, '%')
 
-The accuracy is 53.1% with 10% of train data.
+The accuracy is 63.8% with 10% of train data.
 
-By varying the number 10 to 30,50,70 and 400 to 1200,2000,2800, we can obtain the accuracy of classifier with 30%, 50%, 70% of data set.
+By varying the number 10 to 30,50,70 and 400 to 1200,2000,2800, we can obtain the accuracy of classifier with 30%, 50%, 70% of data set. 
+As a result, the accuracy for 10%, 30%, 50%, 70%, 100% data is 63.8%, 69.2%, 70.8%, 71.7%, 71.4%.
