@@ -52,6 +52,7 @@ tokenized_words[] is the list of total set of tokenized review.
                 tokenized_words.append(review_word)
 
 By using count function, top 1000 features are sorted.
+
     count = Counter(tokenized_words)
     top_thousand = count.most_common(1000)
     selected_f = []
