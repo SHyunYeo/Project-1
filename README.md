@@ -249,3 +249,16 @@ The accuracy is 63.8% with 10% of train data.
 
 By varying the number 10 to 30,50,70 and 400 to 1200,2000,2800, we can obtain the accuracy of classifier with 30%, 50%, 70% of data set. 
 As a result, the accuracy for 10%, 30%, 50%, 70%, 100% data is 63.8%, 69.2%, 70.8%, 71.7%, 71.4%.
+
+By using matplotlib, we can show the learning curve of the result. The x lable is amount of training data used in percentage(%), and the y lable shows the accuracy by amount of training data used.
+
+    import matplotlib.pyplot as plt
+
+
+    data_dict = {'data_x': [10, 30, 50, 70, 100], 'data_y': [ACCURACY10, ACCURACY30, ACCURACY50, ACCURACY70, ACCURACY]}
+    plt.xlabel('Amount of training data used (%)')
+    plt.ylabel('Accuracy')
+    plt.plot('data_x', 'data_y', data=data_dict)
+    plt.show()
+    plt.show()
+    
