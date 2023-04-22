@@ -1,36 +1,36 @@
-# Project 1
+## Project 1
 
 
     import csv
     import math
     from collections import Counter
 
+Internal library csv, math, Counter are used.
 
 
 
 
+# TASK 1
 
-### TASK 1 ###
+    f = open ('train.csv','r')
+    train_csv = csv.reader(f)
 
-f = open ('train.csv','r')
-train_csv = csv.reader(f)
+    train = []
+    tokenized_rev = []
+    special_chars = " !\"#$%&'()*+,-./:;<=>?@[\]^_`{|}~"
 
-train = []
-tokenized_rev = []
-special_chars = " !\"#$%&'()*+,-./:;<=>?@[\]^_`{|}~"
-
+First, opened train.csv file and the list of special characters are made. 
 
 
-for line in train_csv:
-    line[1]=line[1].lower()                                 ## Converting into lowercases
-    if not line[1] == 'text':                               ## Eliminate the special charactors
-        for Char in special_chars:
-            line[1]=line[1].replace(Char,' ')
-        line[1] = line[1].split()
-        train.append(line)
-        tokenized_rev.append(line[1])                       ## tokenize into words
-
-f.close
+    for line in train_csv:
+        line[1]=line[1].lower()                                 ## Converting into lowercases
+        if not line[1] == 'text':                               ## Eliminate the special charactors
+            for Char in special_chars:
+                line[1]=line[1].replace(Char,' ')
+            line[1] = line[1].split()
+            train.append(line)
+            tokenized_rev.append(line[1])                       ## tokenize into words
+    f.close
 
 
 f = open("stopwords.txt",'r')                               ## making stopwords lists
