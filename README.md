@@ -31,7 +31,7 @@ To sort the train data, it is tokenized by splitting each review after convertin
                 line[1]=line[1].replace(Char,' ')
             line[1] = line[1].split()
             train.append(line)
-            tokenized_rev.append(line[1])                       ## tokenize into words
+            tokenized_rev.append(line[1])                       ## splitting into words
     f.close
 
     f = open("stopwords.txt",'r')                               ## making stopwords lists
@@ -71,8 +71,8 @@ Top 20-50 features are: 'well', 'order', 'told', 'didn', 'going', 'first', 'am',
 
 All the positive and negative reviews from train.csv are made by list of p_rev_train and n_rev_train. In the train.csv, positive reviews are represented as 5 and negative reviews, 1.
 
-    p_rev_train = []                                        ## list (positive reviews)
-    n_rev_train = []                                        ## list (negative reviews)
+    p_rev_train = []                                        # list (positive reviews)
+    n_rev_train = []                                        # list (negative reviews)
 
     for review in train:
         if review[0] == '5':
@@ -84,9 +84,9 @@ There are 1970 postive reviews and 2030 negative reviews in train.csv.
 
 To apply Naive rules, we need to find out likelihood of each feature by conditional probability distribute. CPD_pos and CPD_neg shows how many times the features appeared in the positive review and negative review from train.csv each. For example, CPD_pos[19] shows how many times the 20th feature appeared in positive review, which is the word 'well'.
 
-    CPD_pos = []                                # number of times the features are used in positive reviews
-    CPD_neg = []                                # number of times the features are used in positive reviews
-
+    CPD_pos = []                                
+    CPD_neg = []           
+    
     for feature in selected_f:               
         cnt_pos = 0
         cnt_neg = 0
@@ -100,17 +100,17 @@ To apply Naive rules, we need to find out likelihood of each feature by conditio
 
 We are going to test with the trained data using test.csv. Repeat the same procedure as train.csv to tokenize the test data.
 
-    f = open ('test.csv','r')                                   ## TEST WITH 'test.csv'
+    f = open ('test.csv','r')                                   
     test_csv = csv.reader(f)
 
     test = []
 
     for line in test_csv:
-        line[1]=line[1].lower()                                 ## Converting into lowercases
-        if not line[1] == 'text':                               ## Eliminate the special charactors
+        line[1]=line[1].lower()                                 # Converting into lowercases
+        if not line[1] == 'text':                               # Eliminate the special charactors
             for Char in special_chars:
                 line[1]=line[1].replace(Char,' ')
-            line[1] = line[1].split()
+            line[1] = line[1].split()                           # Splitting into words
             test.append(line)
     f.close
 
