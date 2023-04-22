@@ -67,7 +67,7 @@ Top 20-50 features are: 'well', 'order', 'told', 'didn', 'going', 'first', 'am',
 
 
 
-# TASK 2
+## TASK 2
 
 All the positive and negative reviews from train.csv are made by list of p_rev_train and n_rev_train. In the train.csv, positive reviews are represented as 5 and negative reviews, 1.
 
@@ -144,7 +144,8 @@ In python, very small number may not be counted. After computing likelihood, it 
         else:
             Estimation.append('1')
 
-The accuracy formula is: \n
+The accuracy formula is: 
+
 $Accuracy = (TruePositive + TrueNegative)/(TruePositive + TrueNegative + FalsePositive + FalseNegative)$
 
     TRUE_P = 0
@@ -171,78 +172,81 @@ $Accuracy = (TruePositive + TrueNegative)/(TruePositive + TrueNegative + FalsePo
 
 The accuracy of the classifier is 71.39999999999999 %.
 
-### TASK 3 ###
+## TASK 3
 
 
-# Training with 10% data set
-'''
-p_rev10 = []
-n_rev10 = []
-for i in range(400):
-    if train[i][0] == '5':
-        p_rev10.append(review[1])
-    else:
-        n_rev10.append(review[1])                          
+### Training with 10% data set
 
+The number of total review of train.csv was 4000. Now we are going to train again with 10% of this data(400 reviews).
 
-CPD_p10 = []                                # number of times the features are used in positive reviews
-CPD_n10 = []                                # number of times the features are used in positive reviews
-
-for feature in selected_f:               
-    cnt_pos = 0
-    cnt_neg = 0
-    
-    for review_p in p_rev10:
-        cnt_pos += review_p.count(feature)
-    for review_n in n_rev10:
-        cnt_neg += review_n.count(feature)
-    CPD_p10.append(cnt_pos)
-    CPD_n10.append(cnt_neg)
-
-Estimation10 = []
-
-
-for review in test:
-    ll_pos = 0
-    ll_neg = 0
-    for words in review[1]:
-        for features in selected_f:
-            if words == features:
-                if CPD_p10[selected_f.index(features)] == 0:
-                    ll_pos += math.log10(1/(len(p_rev10)+2))
-                else:
-                    ll_pos += math.log10(CPD_p10[selected_f.index(features)]/len(p_rev10))
-                if CPD_n10[selected_f.index(features)] == 0:
-                    ll_neg += math.log10(1/(len(n_rev10)+2)) 
-                else:
-                    ll_neg += math.log10(CPD_n10[selected_f.index(features)]/len(n_rev10))
-    if ll_pos  > ll_neg :
-        Estimation10.append('5')
-    else:
-        Estimation10.append('1')
-
-TRUE_P = 0
-TRUE_N = 0
-FALSE_P = 0
-FALSE_N = 0
-
-number = 0
-for i in Estimation10:
-    if i == test[number][0]:
-        if i == '5':
-            TRUE_P += 1
+    p_rev10 = []
+    n_rev10 = []
+    for i in range(400):
+        if train[i][0] == '5':
+            p_rev10.append(review[1])
         else:
-            TRUE_N += 1
-    else:
-        if i == '5':
-            FALSE_P += 1
-        else:
-            FALSE_N += 1
-    number += 1
+            n_rev10.append(review[1])                          
 
-ACCURACY10 = (TRUE_P + TRUE_N)/(TRUE_P + TRUE_N + FALSE_P + FALSE_N)
-print('Accuracy for 10% Data set : ', ACCURACY10*100, '%')
-'''
+    CPD_p10 = []                               
+    CPD_n10 = []                                
+
+    for feature in selected_f:               
+        cnt_pos = 0
+        cnt_neg = 0
+        for review_p in p_rev10:
+            cnt_pos += review_p.count(feature)
+        for review_n in n_rev10:
+            cnt_neg += review_n.count(feature)
+        CPD_p10.append(cnt_pos)
+        CPD_n10.append(cnt_neg)
+
+
+    Estimation10 = []
+
+
+    for review in test:
+        ll_pos = 0
+        ll_neg = 0
+        for words in review[1]:
+            for features in selected_f:
+                if words == features:
+                    if CPD_p10[selected_f.index(features)] == 0:
+                        ll_pos += math.log10(1/(len(p_rev10)+2))
+                    else:
+                        ll_pos += math.log10(CPD_p10[selected_f.index(features)]/len(p_rev10))
+                    if CPD_n10[selected_f.index(features)] == 0:
+                        ll_neg += math.log10(1/(len(n_rev10)+2)) 
+                    else:
+                        ll_neg += math.log10(CPD_n10[selected_f.index(features)]/len(n_rev10))
+        if ll_pos  > ll_neg :
+            Estimation10.append('5')
+        else:
+            Estimation10.append('1')
+
+    TRUE_P = 0
+    TRUE_N = 0
+    FALSE_P = 0
+    FALSE_N = 0
+
+    number = 0
+    for i in Estimation10:
+        if i == test[number][0]:
+            if i == '5':
+                TRUE_P += 1
+            else:
+                TRUE_N += 1
+        else:
+            if i == '5':
+                FALSE_P += 1
+            else:
+                FALSE_N += 1
+        number += 1
+
+    ACCURACY10 = (TRUE_P + TRUE_N)/(TRUE_P + TRUE_N + FALSE_P + FALSE_N)
+    print('Accuracy for 10% Data set : ', ACCURACY10*100, '%')
+
+The accuracy is 53.1% with 10% of train data.
+
 # Training with 30% data set
 p_rev30 = []
 n_rev30 = []
