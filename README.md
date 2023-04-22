@@ -5,7 +5,7 @@ Built-in modules csv, math, Counter are used. Also, matplotlib is used for plott
     import csv
     import math
     from collections import Counter
-
+    import matplotlib.pyplot as plt
 
 
 
