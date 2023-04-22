@@ -42,7 +42,7 @@ To sort the train data, it is tokenized by splitting each review after convertin
         stopwords.append(line)
     f.close
     
-tokenized_words[] is the list of total set of tokenized review.
+'tokenized_words' is the list of total set of tokenized review.
     
     tokenized_words = []                                        ## eliminating stopwords
 
@@ -82,7 +82,7 @@ All the positive and negative reviews from train.csv are made by list of p_rev_t
             
 There are 1970 postive reviews and 2030 negative reviews in train.csv.
 
-To apply Naive rules, we need to find out likelihood of each feature by conditional probability distribute. CPD_pos and CPD_neg shows how many times the features appeared in the positive review and negative review from train.csv each.
+To apply Naive rules, we need to find out likelihood of each feature by conditional probability distribute. CPD_pos and CPD_neg shows how many times the features appeared in the positive review and negative review from train.csv each. For example, CPD_pos[19] shows how many times the 20th feature appeared in positive review, which is the word 'well'.
 
     CPD_pos = []                                # number of times the features are used in positive reviews
     CPD_neg = []                                # number of times the features are used in positive reviews
@@ -119,52 +119,56 @@ We are going to test with the trained data using test.csv. Repeat the same proce
             if review_word in stopwords:
                 review[1] = [i for i in review[1] if i not in stopwords]
 
-
+Maximum likelihood estimation is a method of estimation by comparing the likelihood and predicting which class the attribute belongs to. The likelihood is computed as P(F1, F2, ... , F1000 | REVIEW) = P(F1|REVIEW)P(F2|REVIEW)...P(F1000|REVIEW). If the likelihood of a feature is 0, i.e. unseen event, 'Laplace smoothing' is used to prevent these cases. The number of possible case with a feature f_k is 2(to appear or not). Therefore, the likelihood will be 1/(P(REVIEW)+2). 
+In python, very small number may not be counted. After computing likelihood, it could be very small number since it is multiplication of numbers less than 1. Therefore, the likelihood is compared by log function. If the likelihood of that the sentence is positive review is larger than the likelihood of negative, the classifier will consider that the review is positive review. Else, it will classify the review negative.
 
 Estimation = []
 
-for review in test:
-    ll_pos = 0
-    ll_neg = 0
-    for words in review[1]:
-        for features in selected_f:
-            if words == features:
-                if CPD_pos[selected_f.index(features)] == 0:
-                    ll_pos += math.log10(1/(len(p_rev_train)+2))
-                else:
-                    ll_pos += math.log10(CPD_pos[selected_f.index(features)]/len(p_rev_train))
-                if CPD_neg[selected_f.index(features)] == 0:
-                    ll_neg += math.log10(1/(len(n_rev_train)+2)) 
-                else:
-                    ll_neg += math.log10(CPD_neg[selected_f.index(features)]/len(n_rev_train))
-    if ll_pos  > ll_neg :
-        Estimation.append('5')
-    else:
-        Estimation.append('1')
-
-
-TRUE_P = 0
-TRUE_N = 0
-FALSE_P = 0
-FALSE_N = 0
-
-number = 0
-for i in Estimation:
-    if i == test[number][0]:
-        if i == '5':
-            TRUE_P += 1
+    for review in test:
+        ll_pos = 0
+        ll_neg = 0
+        for words in review[1]:
+            for features in selected_f:
+                if words == features:
+                    if CPD_pos[selected_f.index(features)] == 0:
+                        ll_pos += math.log10(1/(len(p_rev_train)+2))
+                    else:
+                        ll_pos += math.log10(CPD_pos[selected_f.index(features)]/len(p_rev_train))
+                    if CPD_neg[selected_f.index(features)] == 0:
+                        ll_neg += math.log10(1/(len(n_rev_train)+2)) 
+                    else:
+                        ll_neg += math.log10(CPD_neg[selected_f.index(features)]/len(n_rev_train))
+        if ll_pos  > ll_neg :
+            Estimation.append('5')
         else:
-            TRUE_N += 1
-    else:
-        if i == '5':
-            FALSE_P += 1
+            Estimation.append('1')
+
+The accuracy formula is:
+$ Accuracy = (TruePositive + TrueNegative)/(TruePositive + TrueNegative + FalsePositive + FalseNegative) $
+
+    TRUE_P = 0
+    TRUE_N = 0
+    FALSE_P = 0
+    FALSE_N = 0
+
+    number = 0
+    for i in Estimation:
+        if i == test[number][0]:
+            if i == '5':
+                TRUE_P += 1
+            else:
+                TRUE_N += 1
         else:
-            FALSE_N += 1
-    number += 1
+            if i == '5':
+                FALSE_P += 1
+            else:
+                FALSE_N += 1
+        number += 1
 
-ACCURACY = (TRUE_P + TRUE_N)/(TRUE_P + TRUE_N + FALSE_P + FALSE_N)
-print('Accuracy: ', ACCURACY*100, '%')
+    ACCURACY = (TRUE_P + TRUE_N)/(TRUE_P + TRUE_N + FALSE_P + FALSE_N)
+    print('Accuracy: ', ACCURACY*100, '%')
 
+The accuracy of the classifier is 71.39999999999999 %.
 
 ### TASK 3 ###
 
