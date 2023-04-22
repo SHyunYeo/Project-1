@@ -144,7 +144,7 @@ In python, very small number may not be counted. After computing likelihood, it 
         else:
             Estimation.append('1')
 
-The accuracy formula is:
+The accuracy formula is: \n
 $Accuracy = (TruePositive + TrueNegative)/(TruePositive + TrueNegative + FalsePositive + FalseNegative)$
 
     TRUE_P = 0
