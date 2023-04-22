@@ -69,54 +69,56 @@ Top 20-50 features are: 'well', 'order', 'told', 'didn', 'going', 'first', 'am',
 
 # TASK 2
 
-p_rev_train = []                                        ## list (positive reviews)
-n_rev_train = []                                        ## list (negative reviews)
+All the positive and negative reviews from train.csv are made by list of p_rev_train and n_rev_train. In the train.csv, positive reviews are represented as 5 and negative reviews, 1.
 
-for review in train:
-    if review[0] == '5':
-        p_rev_train.append(review[1])
-    if review[0] == '1':
-        n_rev_train.append(review[1])                          # There are 1970 postive reviews and 2030 negative reviews in train data
+    p_rev_train = []                                        ## list (positive reviews)
+    n_rev_train = []                                        ## list (negative reviews)
 
-prob_rev = [len(p_rev_train)/4000,len(n_rev_train)/4000]      # prob_rev = [P(R=positive), P(R=negative)]
+    for review in train:
+        if review[0] == '5':
+            p_rev_train.append(review[1])
+        if review[0] == '1':
+            n_rev_train.append(review[1])               
+            
+There are 1970 postive reviews and 2030 negative reviews in train.csv.
 
+To apply Naive rules, we need to find out likelihood of each feature by conditional probability distribute. CPD_pos and CPD_neg shows how many times the features appeared in the positive review and negative review from train.csv each.
 
-CPD_pos = []                                # number of times the features are used in positive reviews
-CPD_neg = []                                # number of times the features are used in positive reviews
+    CPD_pos = []                                # number of times the features are used in positive reviews
+    CPD_neg = []                                # number of times the features are used in positive reviews
 
-for feature in selected_f:               
-    cnt_pos = 0
-    cnt_neg = 0
-    
-    for review_p in p_rev_train:
-        cnt_pos += review_p.count(feature)
-    for review_n in n_rev_train:
-        cnt_neg += review_n.count(feature)
-    CPD_pos.append(cnt_pos)
-    CPD_neg.append(cnt_neg)
-
-
-
-
-f = open ('test.csv','r')                                   ## TEST WITH 'test.csv'
-test_csv = csv.reader(f)
-
-test = []
-
-for line in test_csv:
-    line[1]=line[1].lower()                                 ## Converting into lowercases
-    if not line[1] == 'text':                               ## Eliminate the special charactors
-        for Char in special_chars:
-            line[1]=line[1].replace(Char,' ')
-        line[1] = line[1].split()
-        test.append(line)
-f.close
+    for feature in selected_f:               
+        cnt_pos = 0
+        cnt_neg = 0
+        for review_p in p_rev_train:
+            cnt_pos += review_p.count(feature)
+        for review_n in n_rev_train:
+            cnt_neg += review_n.count(feature)
+        CPD_pos.append(cnt_pos)
+        CPD_neg.append(cnt_neg)
 
 
-for review in test:
-    for review_word in review[1]:
-        if review_word in stopwords:
-            review[1] = [i for i in review[1] if i not in stopwords]
+We are going to test with the trained data using test.csv. Repeat the same procedure as train.csv to tokenize the test data.
+
+    f = open ('test.csv','r')                                   ## TEST WITH 'test.csv'
+    test_csv = csv.reader(f)
+
+    test = []
+
+    for line in test_csv:
+        line[1]=line[1].lower()                                 ## Converting into lowercases
+        if not line[1] == 'text':                               ## Eliminate the special charactors
+            for Char in special_chars:
+                line[1]=line[1].replace(Char,' ')
+            line[1] = line[1].split()
+            test.append(line)
+    f.close
+
+    for review in test:
+        for review_word in review[1]:
+            if review_word in stopwords:
+                review[1] = [i for i in review[1] if i not in stopwords]
+
 
 
 Estimation = []
